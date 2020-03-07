@@ -4,8 +4,9 @@ interface Laptop {
 }
 
 class SimpleLaptop : Laptop {
-    override val description = "A laptop"
-    override val price = 399.99
+    private val itemPrice = 399.99
+    override val description = "Simple laptop @ £$itemPrice" // TODO pad zeroes! need test?!
+    override val price = itemPrice
 }
 
 abstract class LaptopDecorator(decoratedLaptop: Laptop) : Laptop {
@@ -14,11 +15,21 @@ abstract class LaptopDecorator(decoratedLaptop: Laptop) : Laptop {
 }
 
 class ProcessorUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    override val description = super.description + ", 1.21 GigaWatts processor"
-    override val price = super.price + 80.00
+    private val upgradePrice = 80.0
+    override val description = super.description + ", 1.21 GigaWatts processor @ £${upgradePrice.padZeros()}"
+    override val price = super.price + upgradePrice
 }
 
 class MemoryUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    override val description = super.description + ", extra 16Gb RAM"
-    override val price = super.price + 50.00
+    private val upgradePrice = 50.0
+    override val description = super.description + ", extra 16Gb RAM @ £${upgradePrice.padZeros()}"
+    override val price = super.price + upgradePrice
+}
+
+private fun Double.padZeros() = this.toString().let {
+    when (it.substringAfterLast(".").length) {
+        0 -> it + "00"
+        1 -> it + "0"
+        else -> it
+    }
 }
