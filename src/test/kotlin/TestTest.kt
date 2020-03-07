@@ -5,4 +5,8 @@ class TestTest : StringSpec ({
     "Just a test to test the tests" {
         1 + 1 shouldBe 2
     }
+
+    "Another little test" {
+        "letters".length shouldBe 7
+    }
 })
