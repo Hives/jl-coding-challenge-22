@@ -1,19 +1,24 @@
 interface Laptop {
     val description: String
-    val price: Int
+    val price: Double
 }
 
 class SimpleLaptop : Laptop {
     override val description = "A laptop"
-    override val price = 40000
+    override val price = 399.99
 }
 
-abstract class LaptopDecorator(private val decoratedLaptop: Laptop) : Laptop {
+abstract class LaptopDecorator(decoratedLaptop: Laptop) : Laptop {
     override val description = decoratedLaptop.description
     override val price = decoratedLaptop.price
 }
 
-class ProcessorUpgrade(private val laptop: Laptop) : LaptopDecorator(laptop) {
+class ProcessorUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
     override val description = super.description + ", 1.21 GigaWatts processor"
-    override val price = super.price + 5000
+    override val price = super.price + 80.00
+}
+
+class MemoryUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
+    override val description = super.description + ", extra 16Gb RAM"
+    override val price = super.price + 50.00
 }
