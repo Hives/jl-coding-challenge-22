@@ -25,11 +25,3 @@ class MemoryUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
     override val description = super.description + ", extra 16Gb RAM @ £${upgradePrice.padZeros()}"
     override val price = super.price + upgradePrice
 }
-
-private fun Double.padZeros() = this.toString().let {
-    when (it.substringAfterLast(".").length) {
-        0 -> it + "00"
-        1 -> it + "0"
-        else -> it
-    }
-}
