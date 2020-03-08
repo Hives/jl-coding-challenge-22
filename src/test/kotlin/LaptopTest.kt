@@ -1,7 +1,6 @@
 import io.kotlintest.matchers.string.shouldInclude
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import org.eclipse.jgit.lib.Ref
 
 class LaptopTest : StringSpec({
     "a laptop should have a description" {
