@@ -12,7 +12,8 @@ class SimpleLaptop : Laptop {
 
 fun Laptop.upgrade(option: Option) = UpgradedLaptop(this, option)
 
-// this is my decorator class!
+// this is my "decorator" class after refactoring - does it even count as a decorator now? isn't a decorator supposed
+// to be an abstract class that you subclass to produce the different concrete decorations?!
 class UpgradedLaptop(laptop: Laptop, option: Option) : Laptop {
     override val description = "${laptop.description}, ${option.description} (${option.price.formatPounds()})"
     override val price = laptop.price + option.price
