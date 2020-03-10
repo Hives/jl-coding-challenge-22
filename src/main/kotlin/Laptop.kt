@@ -5,47 +5,52 @@ interface Laptop {
 
 class SimpleLaptop : Laptop {
     private val itemPrice = 399.99
-    override val description = "Simple laptop @ £${itemPrice.padZeros()}"
+
+    override val description = "Simple laptop (${itemPrice.formatPounds()})"
     override val price = itemPrice
 }
 
-abstract class LaptopDecorator(decoratedLaptop: Laptop) : Laptop {
-    override val description = decoratedLaptop.description
-    override val price = decoratedLaptop.price
+abstract class LaptopDecorator(laptop: Laptop, option: Option) : Laptop {
+    override val description = "${laptop.description}, ${option.description} (${option.price.formatPounds()})"
+    override val price = laptop.price + option.price
 }
 
-class ProcessorUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 80.0
-    override val description = super.description + ", 1.21 GigaWatts processor @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+class ProcessorUpgrade(laptop: Laptop, option: Processor) : LaptopDecorator(laptop, option)
+class MemoryUpgrade(laptop: Laptop, option: Memory) : LaptopDecorator(laptop, option)
+class StorageUpgrade(laptop: Laptop, option: Storage) : LaptopDecorator(laptop, option)
+class GraphicsUpgrade(laptop: Laptop, option: Graphics) : LaptopDecorator(laptop, option)
+class BatteryUpgrade(laptop: Laptop, option: Battery) : LaptopDecorator(laptop, option)
+class CaseUpgrade(laptop: Laptop, option: Case) : LaptopDecorator(laptop, option)
+
+sealed class Option(val description: String, val price: Double)
+
+sealed class Processor(description: String, price: Double): Option(description, price) {
+    object GIGAWATTS : Processor("1.21 GigaWatts processor", 80.0)
+    object KILOHORTZ : Processor("99 Kilohortz processor", 120.0)
 }
 
-class MemoryUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 50.0
-    override val description = super.description + ", extra 16Gb RAM @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+sealed class Memory(description: String, price: Double): Option(description, price) {
+    object SMALL : Memory("8Mb RAM", 0.50)
+    object MEDIUM : Memory("16Gb RAM", 40.00)
+    object LARGE : Memory("64Gb RAM", 100.00)
 }
 
-class StorageUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 99.98
-    override val description = super.description + ", 1Tb SSD @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+sealed class Storage(description: String, price: Double): Option(description, price) {
+    object CARDBOARD : Storage("A cardboard box", 1.20)
+    object FLOPPY : Storage("5.25\" floppy drive", 24.99)
+    object SSD : Storage("1Tb SSD", 99.98)
 }
 
-class GraphicsUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 47.77
-    override val description = super.description + ", Technicolor @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+sealed class Graphics(description: String, price: Double): Option(description, price) {
+    object TECHNICOLOR : Graphics("Technicolor", 47.77)
+    object MEGAPIXELS : Graphics("1,000,000 megapixels", 739.99)
 }
 
-class BatteryUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 3.99
-    override val description = super.description + ", 4 * AAA included @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+sealed class Battery(description: String, price: Double): Option(description, price) {
+    object AAA : Battery("4 * AAA included", 3.99)
+    object NICKELCADMIUM : Battery("nickel-cadmium battery", 60.00)
 }
 
-class ShinyCaseUpgrade(laptop: Laptop) : LaptopDecorator(laptop) {
-    private val upgradePrice = 300.00
-    override val description = super.description + ", Teh Shinies @ £${upgradePrice.padZeros()}"
-    override val price = super.price + upgradePrice
+sealed class Case(description: String, price: Double): Option(description, price) {
+    object SHINY : Case("Teh Shinies", 300.00)
 }
