@@ -10,17 +10,13 @@ class SimpleLaptop : Laptop {
     override val price = itemPrice
 }
 
-abstract class LaptopDecorator(laptop: Laptop, option: Option) : Laptop {
+fun Laptop.upgrade(option: Option) = UpgradedLaptop(this, option)
+
+// this is my decorator class!
+class UpgradedLaptop(laptop: Laptop, option: Option) : Laptop {
     override val description = "${laptop.description}, ${option.description} (${option.price.formatPounds()})"
     override val price = laptop.price + option.price
 }
-
-class ProcessorUpgrade(laptop: Laptop, option: Processor) : LaptopDecorator(laptop, option)
-class MemoryUpgrade(laptop: Laptop, option: Memory) : LaptopDecorator(laptop, option)
-class StorageUpgrade(laptop: Laptop, option: Storage) : LaptopDecorator(laptop, option)
-class GraphicsUpgrade(laptop: Laptop, option: Graphics) : LaptopDecorator(laptop, option)
-class BatteryUpgrade(laptop: Laptop, option: Battery) : LaptopDecorator(laptop, option)
-class CaseUpgrade(laptop: Laptop, option: Case) : LaptopDecorator(laptop, option)
 
 sealed class Option(val description: String, val price: Double)
 
